@@ -1,0 +1,85 @@
+Локальный запуск FastAPI
+Установи зависимости (если ещё не установлены):
+
+pip install fastapi uvicorn pandas dill
+Убедись, что структура проекта такая:
+
+project_folder/
+├── main.py  # файл с кодом FastAPI
+└── data/
+    └── models/
+        ├── ga_pipeline_final.pkl
+        └── custom_preprocessor.pkl
+Запусти сервер через консоль:
+
+uvicorn main:app --reload
+
+Для использования сервиса я рекомендую использовать postman, но так же это можно делать через консоль или библиотеку request в python.
+
+Тестирование FastAPI в Postman
+
+1. GET /version
+
+Что делать:
+
+Метод: GET
+
+URL: http://127.0.0.1:8000/status
+
+Нажми Send.
+
+Если сервис испрано работает, то вы получите ответ:
+
+{
+    "status": "ok"
+}
+
+2. GET /version
+
+Метод: GET
+
+URL: http://127.0.0.1:8000/version
+
+Если сервис испрано работает, то вы получите ответ:
+
+{
+    "name": "Предсказание совершения пользователем целевого действия",
+    "author": "Georgii Lozovoi",
+    "version": 1,
+    "date": "2025-04-08T13:01:43.538997",
+    "model_type": "Logistic Regression",
+    "roc_auc": 0.6554281650389645
+}
+
+3. POST /predict
+
+Метод: POST
+
+URL: http://127.0.0.1:8000/predict
+
+Серрис принимает на вход строки:
+
+# Пример входных данных
+
+{
+    "session_id": "9055447046360770272.1622255345.1622255345",
+    "utm_source": "kjsLglQLzykiRbcDiGcD",
+    "utm_medium": "cpc",
+    "utm_campaign": "463481",
+    "utm_adcontent": "1006599",
+    "utm_keyword": "506819",
+    "device_category": "mobile",
+    "device_os": "Android",
+    "device_brand": "Xiaomi",
+    "device_screen_resolution": "393x786",
+    "device_browser": "Chrome",
+    "geo_country": "Russia",
+    "geo_city": "Moscow"
+}
+
+И возвращает:
+
+{
+    "session_id": "9055447046360770272.1622255345.1622255345",
+    "prediction": 0
+}
